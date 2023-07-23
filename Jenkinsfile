@@ -70,7 +70,7 @@ spec:
                  steps {
                      container('kubectl') {
                       withKubeConfig([credentialsId: 'kube-config', serverUrl: 'https://192.168.1.130:6443']) {
-                      sh 'kubectl delete pods -n emp -l app=angular-app'
+                      sh 'kubectl delete pods -n emp -l app=angular-deployment'
                    }
                    }
                  }
