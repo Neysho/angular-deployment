@@ -1,73 +1,92 @@
 pipeline {
     agent {
     kubernetes {
-      yaml """
+      yaml '''
+apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
+  - name: kubectl
+    image: gcr.io/cloud-builders/kubectl
     imagePullPolicy: Always
+    command: ["cat"]
+    tty: true
+  - name: docker
+    image: docker:latest
     command:
-    - sleep
-    args:
-    - 999999
+    - cat
+    tty: true
     volumeMounts:
-    - name: jenkins-docker-cfg
-      mountPath: /kaniko/.docker
+    - mountPath: /var/run/docker.sock
+      name: docker-sock
   volumes:
-  - name: jenkins-docker-cfg
-    projected:
-      sources:
-      - secret:
-          name: docker-credentials
-          items:
-            - key: .dockerconfigjson
-              path: config.json
-"""
+  - name: docker-sock
+    hostPath:
+      path: /var/run/docker.sock     
+      '''
+      }
     }
-  }
-    // tools {
-    //     nodejs "node-14.21.3"
-    // }
+    tools{
+        maven 'maven-3.9.3'
+    }
     environment{
-        DOCKERHUB_CREDENTIALS=credentials('e2139a57-daf7-4860-af60-38a5496dc084')
+        DOCKERHUB_CREDENTIALS=credentials('docker-hub-neysho')
+        DB_HOST = '10.96.161.243'
+        DB_USERNAME = 'root'
+        DB_PASSWORD = 'root'
+        DB_NAME = 'bsisa'
     }
-
-    stages{
-            stage('Checkout'){
+       stages{
+             stage('checkout'){
+                        steps{
+                        //  deleteDir()
+                         checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-neysho', url: 'https://github.com/Neysho/Spring-boot-deployment.git']])
+                       }
+                  }
+                  stage('NPM install'){
                 steps{
-                    // deleteDir()
-                    checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Neysho/angular-color.git']])
-                    // sh 'ls'
-                    // sh "sed -i 's|image: neysho/web-app.*|image: neysho/web-app:$BUILD_NUMBER|g' manifests/deployment.yml"
-                    // sh 'cat manifests/deployment.yml'
+                  withKubeConfig([credentialsId: 'kube-config', serverUrl: 'https://192.168.1.130:6443']) {
+                    sh 'npm install'
+                  }
                 }
             }
-            stage('Build with Kaniko') {
-      steps {
-            container(name: 'kaniko', shell: '/busybox/sh') {
-                sh '''#!/busybox/sh
-
-                    /kaniko/executor --destination=neysho/web-app:latest \
-                    --context=git://github.com/Neysho/angular-color.git \
-                    -f `pwd`/Dockerfile \
-                    --verbosity info
-                    
-                '''
+            stage('build'){
+                steps{
+                  withKubeConfig([credentialsId: 'kube-config', serverUrl: 'https://192.168.1.130:6443']) {
+                    sh 'npm run build --prod'
+                  }
+                }
             }
-        }
-      }
-            // stage('NPM install'){
-            //     steps{
-            //         sh 'npm install'
-            //     }
-            // }
-            // stage('build'){
-            //     steps{
-            //         sh 'npm run build --prod'
-            //     }
-            // }
+            stage('docker build'){
+                steps{
+                    container('docker') {
+                        sh ''' ls
+                               docker build -t neysho/emp-frontend:1 .
+                               echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                               docker push neysho/emp-frontend:1
+                        '''
+               }
+              }
+            }
+
+            
+             stage('Deploying frontend') {
+                 steps {
+                     container('kubectl') {
+                      withKubeConfig([credentialsId: 'kube-config', serverUrl: 'https://192.168.1.130:6443']) {
+                      sh 'kubectl delete pods -n emp -l app=angular-dep'
+                   }
+                   }
+                 }
+             }
+
+            
 
     }
+     post {
+        // Clean after build
+        always {
+            cleanWs()
+            }
+          }
 }
