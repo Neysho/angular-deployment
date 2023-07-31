@@ -26,9 +26,7 @@ spec:
       '''
       }
     }
-    tools{
-        maven 'maven-3.9.3'
-    }
+    
     environment{
         DOCKERHUB_CREDENTIALS=credentials('docker-hub-neysho')
     }
