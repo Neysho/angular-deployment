@@ -39,13 +39,13 @@ spec:
                   }
            
              stage('NPM install'){
-                tools { nodejs "nodejs-20.2.0" }
+                tools { nodejs "nodejs-14.21.3" }
                 steps{
                     sh 'npm install'
                 }
             }
             stage('build'){
-                tools { nodejs "nodejs-20.2.0" }
+                tools { nodejs "nodejs-14.21.3" }
                 steps{
                     sh 'npm run build --prod'
                 }
