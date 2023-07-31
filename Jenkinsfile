@@ -37,15 +37,16 @@ spec:
                          checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-neysho', url: 'https://github.com/Neysho/Spring-boot-deployment.git']])
                        }
                   }
-                  stage('NPM install'){
+           
+             stage('NPM install'){
+                tools { nodejs "nodejs-20.2.0" }
                 steps{
-                    tools { nodejs "nodejs-20.2.0" }
                     sh 'npm install'
                 }
             }
             stage('build'){
+                tools { nodejs "nodejs-20.2.0" }
                 steps{
-                    tools { nodejs "nodejs-20.2.0" }
                     sh 'npm run build --prod'
                 }
             }
