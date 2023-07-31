@@ -39,16 +39,14 @@ spec:
                   }
                   stage('NPM install'){
                 steps{
-                  withKubeConfig([credentialsId: 'kube-config', serverUrl: 'https://192.168.1.130:6443']) {
+                    tools { nodejs "nodejs-20.2.0" }
                     sh 'npm install'
-                  }
                 }
             }
             stage('build'){
                 steps{
-                  withKubeConfig([credentialsId: 'kube-config', serverUrl: 'https://192.168.1.130:6443']) {
+                    tools { nodejs "nodejs-20.2.0" }
                     sh 'npm run build --prod'
-                  }
                 }
             }
             stage('docker build'){
