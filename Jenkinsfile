@@ -8,7 +8,7 @@ spec:
   containers:
   - name: kubectl
     image: gcr.io/cloud-builders/kubectl
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent
     command: ["cat"]
     tty: true
   - name: docker
