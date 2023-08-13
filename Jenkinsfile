@@ -7,7 +7,7 @@ kind: Pod
 spec:
   containers:
   - name: kubectl
-    image: bitnami/kubectl:1.26
+    image: gcr.io/cloud-builders/kubectl
     imagePullPolicy: IfNotPresent
     command: ["cat"]
     tty: true
