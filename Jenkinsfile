@@ -13,9 +13,9 @@ spec:
     tty: true
     resources:
       requests:
-        memory: "500Mi"
-      limits:
         memory: "1000Mi"
+      limits:
+        memory: "2000Mi"
     securityContext:
       runAsUser: 0  # Set the UID for the root user
       runAsGroup: 0 # Set the GID for the root group
