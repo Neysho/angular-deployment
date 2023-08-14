@@ -14,16 +14,24 @@ spec:
     resources:
       requests:
         cpu: "0.3"
-        memory: "1000Mi"
+        memory: "500Mi"
+        ephemeral-storage: "1Gi"
       limits:
         cpu: "1"
-        memory: "2000Mi"
+        memory: "1000Mi"
   - name: docker
     image: docker:latest
     imagePullPolicy: IfNotPresent
     command:
     - cat
     tty: true
+    requests:
+        cpu: "0.3"
+        memory: "500Mi"
+      limits:
+        cpu: "1"
+        memory: "1000Mi"
+        ephemeral-storage: "1Gi"
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
