@@ -13,10 +13,8 @@ spec:
     tty: true
     resources:
       requests:
-        cpu: "0.3"
         memory: "500Mi"
       limits:
-        cpu: "1"
         memory: "1000Mi"
     securityContext:
       runAsUser: 0  # Set the UID for the root user
