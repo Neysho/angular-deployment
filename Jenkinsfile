@@ -14,10 +14,10 @@ spec:
     resources:
       requests:
         cpu: "0.3"
-        memory: "700Mi"
+        memory: "1000Mi"
       limits:
         cpu: "1"
-        memory: "1000Mi"
+        memory: "2000Mi"
   - name: docker
     image: docker:latest
     imagePullPolicy: IfNotPresent
@@ -27,10 +27,10 @@ spec:
     resources:
       requests:
         cpu: "0.3"
-        memory: "700Mi"
+        memory: "1000Mi"
       limits:
         cpu: "1"
-        memory: "1000Mi"
+        memory: "2000Mi"
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
