@@ -5,6 +5,8 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
+  nodeSelector:
+    node: worker2
   containers:
   - name: kubectl
     image: bitnami/kubectl:latest
