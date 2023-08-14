@@ -11,6 +11,9 @@ spec:
     imagePullPolicy: IfNotPresent
     command: ["cat"]
     tty: true
+    securityContext:
+      runAsUser: 0  # Set the UID for the root user
+      runAsGroup: 0 # Set the GID for the root group
   - name: docker
     image: docker:latest
     imagePullPolicy: IfNotPresent
