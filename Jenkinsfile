@@ -31,14 +31,6 @@ spec:
       limits:
         cpu: "1"
         memory: "1000Mi"
-    resources:
-      requests:
-        cpu: "0.3"
-        memory: "500Mi"
-      limits:
-        cpu: "1"
-        memory: "1000Mi"
-        ephemeral-storage: "1Gi"
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
