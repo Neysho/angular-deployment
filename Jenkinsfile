@@ -14,17 +14,23 @@ spec:
     resources:
       requests:
         cpu: "0.3"
-        memory: "500Mi"
+        memory: "700Mi"
       limits:
         cpu: "1"
         memory: "1000Mi"
-        ephemeral-storage: "1Gi"
   - name: docker
     image: docker:latest
     imagePullPolicy: IfNotPresent
     command:
     - cat
     tty: true
+    resources:
+      requests:
+        cpu: "0.3"
+        memory: "700Mi"
+      limits:
+        cpu: "1"
+        memory: "1000Mi"
     resources:
       requests:
         cpu: "0.3"
