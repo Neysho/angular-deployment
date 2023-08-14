@@ -11,6 +11,13 @@ spec:
     imagePullPolicy: IfNotPresent
     command: ["cat"]
     tty: true
+    resources:
+      requests:
+        cpu: "0.3"
+        memory: "500Mi"
+      limits:
+        cpu: "1"
+        memory: "1000Mi"
     securityContext:
       runAsUser: 0  # Set the UID for the root user
       runAsGroup: 0 # Set the GID for the root group
@@ -20,6 +27,13 @@ spec:
     command:
     - cat
     tty: true
+    resources:
+      requests:
+        cpu: "0.3"
+        memory: "1000Mi"
+      limits:
+        cpu: "1"
+        memory: "2000Mi"
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
