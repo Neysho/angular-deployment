@@ -11,6 +11,13 @@ spec:
     imagePullPolicy: IfNotPresent
     command: ["cat"]
     tty: true
+    resources:
+      requests:
+        cpu: "0.3"
+        memory: "1000Mi"
+      limits:
+        cpu: "1"
+        memory: "2000Mi"
   - name: docker
     image: docker:latest
     imagePullPolicy: IfNotPresent
