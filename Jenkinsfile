@@ -5,8 +5,6 @@ pipeline {
 apiVersion: v1
 kind: Pod
 spec:
-  nodeSelector:
-    node: worker2
   containers:
   - name: kubectl
     image: bitnami/kubectl:latest
@@ -29,9 +27,9 @@ spec:
     tty: true
     resources:
       requests:
-        memory: "1000Mi"
+        memory: "500Mi"
       limits:
-        memory: "2000Mi"
+        memory: "1000Mi"
     volumeMounts:
     - mountPath: /var/run/docker.sock
       name: docker-sock
