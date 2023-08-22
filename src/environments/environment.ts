@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // apiBaseUrl: 'http://localhost:8080'
-  apiBaseUrl: 'http://192.168.1.130:31636'
+  apiBaseUrl: 'http://springboot.dev.neysho.com'
 };
 
 /*

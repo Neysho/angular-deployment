@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-deployment
+  namespace: emp
+spec:
+  selector:
+    matchLabels:
+      app: angular-emp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: angular-emp
+    spec:
+      containers:
+        - name: angular-emp
+          image: neysho/emp-frontend:1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
