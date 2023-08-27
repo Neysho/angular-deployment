@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // apiBaseUrl: 'http://localhost:8080'
-  apiBaseUrl: 'http://springboot.dev.neysho.com'
+  apiBaseUrl: 'http://${BACKEND_INGRESS}'
 };
 
 /*
